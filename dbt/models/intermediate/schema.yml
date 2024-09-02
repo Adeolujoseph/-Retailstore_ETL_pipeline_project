@@ -1,0 +1,29 @@
+version: 2
+models:
+  - name: int_facts_daily_sales
+    description: "This table provides a daily summary of sales data, aggregating web sales and catalog sales across different items and warehouses. This is updated incrementally."
+    columns:
+      - name: sold_date_sk
+        description: "The surrogate key representing the date when the item was sold."
+      - name: cal_dt
+        description: "The calendar date associated with the sales transaction."
+      - name: item_sk
+        description: "Unique identifier for the item sold."
+      - name: wk_num
+        description: "The week number within the year for which the sales data was recorded."
+      - name: warehouse_sk
+        description: "Unique identifier for the warehouse from which the item was sold."
+      - name: sales_qty_item_wh_day
+        description: "Total quantity of the item sold from the warehouse on the given day."
+      - name: sales_amount_item_wh_day
+        description: "Total sales amount generated from the item sold on the given day."
+      - name: net_profit_item_wh_day
+        description: "Total net profit generated from the item sold on the given day."
+
+  - name: int_inventory
+    description: "This model captures the snapshot of inventory data by joining inventory records with the date dimension table and updates incrementally."
+    columns:
+      - name: all_columns_from_stg_inventory
+        description: "All other columns from the stg_inventory table that provide detailed information about inventory levels, locations, and related attributes."
+      - name: all_columns_from_stg_date_dim
+        description: "All other columns from the stg_date_dim table that provide detailed information about the calendar dates, including year, month, week number, and other date-related attributes."

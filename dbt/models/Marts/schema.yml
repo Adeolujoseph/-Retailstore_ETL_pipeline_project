@@ -1,0 +1,250 @@
+version: 2
+
+models:
+  - name: customer_dimension
+    description: "This table holds current valid information about customers, including their demographic and behavioral data."
+    columns:
+      - name: customer_salutation
+        description: "Salutation of the customer, such as Mr., Mrs., or Dr."
+      - name: preferred_customer_flag
+        description: "Indicator whether the customer is marked as preferred."
+      - name: first_sales_date_id
+        description: "Unique identifier for the first sales date associated with the customer."
+      - name: customer_id
+        tests:
+          - unique
+          - not_null 
+        description: "Unique identifier for the customer."
+      - name: gender
+        tests:
+          - accepted_values:
+              values: ['M', 'F']
+        description: "The gender of the customer."
+      - name: customer_login
+        description: "Customer's login ID for accessing their account."
+      - name: current_demographics_id
+        description: "Unique identifier for the customer's current demographic profile."
+      - name: first_name
+        description: "First name of the customer."
+      - name: current_household_demographics_id
+        description: "Unique identifier for the customer's current household demographics."
+      - name: current_address_id
+        description: "Unique identifier for the customer's current address."
+      - name: last_name
+        description: "Last name of the customer."
+      - name: customer_code
+        description: "Code that uniquely identifies the customer."
+      - name: last_review_date_id
+        description: "Unique identifier for the last review date of the customer."
+      - name: birth_month
+        description: "The month in which the customer was born."
+      - name: birth_country
+        description: "The country in which the customer was born."
+      - name: birth_year
+        description: "The year in which the customer was born."
+      - name: birth_day
+        description: "The day in which the customer was born."
+      - name: email_address
+        description: "Email address of the customer."
+      - name: first_ship_to_date_id
+        description: "Unique identifier for the first ship-to date associated with the customer."
+      - name: street_name
+        description: "The name of the street where the customer resides."
+      - name: suite_number
+        description: "The suite number of the customer's address, if applicable."
+      - name: state
+        description: "The state where the customer resides."
+      - name: location_type
+        description: "Type of location where the customer resides (e.g., urban, suburban)."
+      - name: country
+        description: "The country where the customer resides."
+      - name: address_code
+        description: "Code that uniquely identifies the customer's address."
+      - name: county
+        description: "The county where the customer resides."
+      - name: street_number
+        description: "The street number of the customer's address."
+      - name: zip_code
+        description: "The ZIP code of the customer's address."
+      - name: city
+        description: "The city where the customer resides."
+      - name: street_type
+        description: "The type of street (e.g., Avenue, Boulevard) where the customer resides."
+      - name: gmt_offset
+        description: "The GMT offset of the customer's location."
+      - name: dependents_employed_count
+        description: "Number of employed dependents in the customer's household."
+      - name: dependents_count
+        description: "Total number of dependents in the customer's household."
+      - name: credit_rating
+        description: "The customer's credit rating."
+      - name: education_status
+        description: "The educational status of the customer."
+      - name: purchase_estimate
+        description: "An estimate of the customer's purchasing capacity."
+      - name: marital_status
+        description: "The marital status of the customer."
+      - name: dependents_in_college_count
+        description: "Number of dependents in college in the customer's household."
+      - name: buying_potential
+        description: "An indicator of the customer's buying potential."
+      - name: income_band_id
+        description: "Unique identifier for the income band of the customer."
+      - name: household_dependents_count
+        description: "Number of dependents in the customer's household."
+      - name: vehicle_count
+        description: "Number of vehicles owned by the customer's household."
+      - name: income_lower_bound
+        description: "The lower bound of the customer's income band."
+      - name: income_upper_bound
+        description: "The upper bound of the customer's income band."
+
+  - name: weekly_sales_inventory
+    description: "This table tracks weekly Sales and inventory levels and calculates metrics such as weeks of supply and low stock flags."
+    tests:
+     - dbt_utils.unique_combination_of_columns:
+         combination_of_columns:
+           - week_number
+           - year
+           - item_id
+           - warehouse_id
+    columns:
+      - name: item_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_item')
+              field: I_ITEM_SK
+        description: "Unique identifier for the item."
+      - name: warehouse_id
+        tests: 
+          - relationships:
+              to: ref('stg_warehouse')
+              field: W_WAREHOUSE_SK
+        description: "Unique identifier for the warehouse where the items are stored."
+      - name: week_start_date
+        tests:
+          - not_null
+        description: "The start date of the week for which the data is summarized."
+      - name: year
+        description: "The year in which the sales and inventory data was recorded."
+      - name: week_number
+        description: "The week number within the year for which the data was recorded."
+      - name: sales_quantity_per_week
+        description: "Total quantity of items sold during the week."
+      - name: sales_amount_per_week
+        description: "Total sales amount generated from the items sold during the week."
+      - name: net_profit_per_week
+        description: "Total net profit generated from the items sold during the week."
+      - name: average_daily_sales_quantity
+        description: "Average quantity of items sold per day during the week."
+      - name: quantity_on_hand_per_week
+        description: "Total quantity of items on hand at the warehouse at the end of the week."
+      - name: weeks_of_supply
+        description: "An estimate metrics to see how many weeks the inventory can supply the sales (inv_on_hand_qty_wk/sum_qty_wk)."
+      - name: low_stock_flag
+        description: "Indicator flag that is true when stock levels are low based on the (average daily sales quantity is greater than the inventory on hand for the week)."
+  
+  - name: warehouse_dimension  
+    description: "This model contains detailed information about warehouses, including their location, size, and identifiers."
+    columns:
+      - name: Warehouse ID
+        description: "Unique identifier for the warehouse."
+      - name: ZIP Code
+        description: "ZIP Code of the warehouse location."
+      - name: Warehouse Name
+        description: "Name of the warehouse."
+      - name: Street Name
+        description: "Street name where the warehouse is located."
+      - name: State
+        description: "State where the warehouse is located."
+      - name: City
+        description: "City where the warehouse is located."
+      - name: County
+        description: "County where the warehouse is located."
+      - name: Street Type
+        description: "Type of street where the warehouse is located (e.g., Avenue, Boulevard)."
+      - name: Warehouse Square Footage
+        description: "Total square footage of the warehouse."
+      - name: Suite Number
+        description: "Suite number of the warehouse, if applicable."
+      - name: Street Number
+        description: "Street number where the warehouse is located."
+      - name: Country
+        description: "Country where the warehouse is located."
+      - name: GMT Offset
+        description: "GMT offset for the warehouse location."
+      - name: Warehouse Identity
+        description: "Alternative identifier for the warehouse."
+    
+  - name: date_dimension  
+    description: "This model contains detailed information about dates, including calendar information and corresponding numerical identifiers."
+    columns:
+      - name: Date ID
+        description: "Unique identifier for the date."
+      - name: Calendar Date
+        description: "The actual calendar date."
+      - name: Day of Week
+        description: "Description of the day of the week (e.g., Monday, Tuesday)."
+      - name: Week Number
+        description: "The week number within the year."
+      - name: Month Number
+        description: "The month number within the year."
+      - name: Year-Month Number
+        description: "A composite number representing the year and month."
+      - name: Year Number
+        description: "The year number."
+      - name: Day of Week Number
+        description: "Numerical representation of the day of the week."
+      - name: Year-Week Number
+        description: "A composite number representing the year and week."
+    
+  - name: item_dimension  
+    description: "This model contains detailed information about items, including their description, manufacturer, cost, brand, and other attributes."
+    columns:
+      - name: ITEM_ID
+        tests:
+          - not_null
+        description: "Unique identifier for the item."
+      - name: Item Description
+        description: "Description of the item."
+      - name: Container Type
+        description: "Type of container the item is packaged in."
+      - name: Manufacturer ID
+        description: "Unique identifier for the manufacturer of the item."
+      - name: Wholesale Cost
+        description: "Wholesale cost of the item."
+      - name: Brand ID
+        description: "Unique identifier for the brand of the item."
+      - name: Formulation
+        description: "The formulation of the item."
+      - name: Current Price
+        description: "Current price of the item."
+      - name: Size
+        description: "Size of the item."
+      - name: Manufacturer Name
+        description: "Name of the manufacturer of the item."
+      - name: Record Start Date
+        description: "Date when the item record was created."
+      - name: Manager ID
+        description: "Unique identifier for the manager responsible for the item."
+      - name: Class
+        description: "Class category of the item."
+      - name: Item Identity
+        description: "Alternative identifier for the item."
+      - name: Class ID
+        description: "Unique identifier for the class of the item."
+      - name: Category
+        description: "Category of the item."
+      - name: Category ID
+        description: "Unique identifier for the category of the item."
+      - name: Brand Name
+        description: "Brand name of the item."
+      - name: Units
+        description: "Units of the item."
+      - name: Color
+        description: "Color of the item."
+      - name: Product Name
+        description: "Product name of the item."
+      - name: Record End Date
+        description: "Date when the item record was closed or ended."

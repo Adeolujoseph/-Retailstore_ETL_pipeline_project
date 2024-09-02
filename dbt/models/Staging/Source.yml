@@ -1,0 +1,42 @@
+version: 2
+
+sources:
+  - name: tpcds
+    description: "This source contains raw data from the TPC-DS benchmark dataset, commonly used for performance testing and analytical queries."
+
+    database: tpcds  
+    schema: raw  
+    
+    tables:
+      - name: catalog_sales
+        description: "This table contains data about sales transactions that occurred via catalogs."
+
+      - name: customer
+        description: "This table holds information about customers, including their demographic and behavioral data."
+
+      - name: customer_address
+        description: "This table contains the address details for each customer."
+
+      - name: customer_demographics
+        description: "This table provides demographic information about customers, such as age, gender, and income level."
+
+      - name: income_band
+        description: "This table categorizes customers into income bands, allowing for income-based segmentation."
+
+      - name: inventory
+        description: "This table tracks the inventory levels of items in various warehouses. It is recorded one per week for each item"
+
+      - name: item
+        description: "This table contains details about the items available for sale, including item descriptions, categories, and pricing."
+
+      - name: warehouse
+        description: "This table holds information about warehouses, including their location and capacity."
+
+      - name: web_sales
+        description: "This table records sales transactions that took place through the web channel."
+
+      - name: household_demographics
+        description: "This table provides demographic information at the household level, such as household size and income."
+
+      - name: date_dim
+        description: "This table contains information about dates, including calendar and fiscal attributes, for use in time-based analysis."

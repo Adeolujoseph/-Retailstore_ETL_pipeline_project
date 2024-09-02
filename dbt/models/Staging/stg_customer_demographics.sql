@@ -1,0 +1,11 @@
+SELECT 
+    CD_DEP_EMPLOYED_COUNT,
+    CD_DEMO_SK,
+    CD_DEP_COUNT,
+    CD_CREDIT_RATING,
+    CD_EDUCATION_STATUS,
+    CD_PURCHASE_ESTIMATE,
+    CD_MARITAL_STATUS,
+    CD_DEP_COLLEGE_COUNT,
+    CD_GENDER
+FROM {{source('tpcds', 'customer_demographics')}}

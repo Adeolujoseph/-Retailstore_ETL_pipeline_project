@@ -1,0 +1,6 @@
+version: 2
+
+snapshots:
+  - name: int_customer_snapshot  
+    description: "This table holds current and historical information about customers, including their demographic and behavioral data. We adopt SCD Type 2 to track changes over time, meaning each change in a customer's profile is captured as a new record with the effective dates. dbt_valid_to is null for current valid customer data"
+    
