@@ -39,6 +39,12 @@ A retail store needs a Data Engineer to develop an ELT (Extract, Load, Transform
 
 3. Data Transformation (DBT) :
    a. All tables are loaded into the staging area
+   b. Integration of  several customer-related tables into one Customer table
+   c. Creating a snapshot of the Customer table (for SCD type 2) in the intermediate layer
+   d. Creating a daily sales facts table in the intermediate layere
+   e. Creating the customer dimension and weekly_sales_inventory models in the marts layer using the intermediate models
+
+   
 5. Integration of some raw tables, such as several customer-related tables, into one table.
 6. Creation of a new fact table with additional metrics:
     sum_qty_wk: Sum of sales_quantity for the current week.
