@@ -27,9 +27,20 @@ A retail store needs a Data Engineer to develop an ELT (Extract, Load, Transform
 
 
 
-## Steps:
-1. Integration of some raw tables, such as several customer-related tables, into one table.
-2. Creation of a new fact table with additional metrics:
+## Project Steps:
+1. OLTP Data Ingestion (Airbyte) : Airbyte was hosted on EC2 instance and configured to ingest all but inventory table from RDS into snowflake. Replication freq: 6:00 UTC , Sync mode:Full refresh
+   ![image](https://github.com/user-attachments/assets/2be7972a-3275-4b0a-beb6-3bbc9a68ba24)
+
+2. S3 Data Ingestion (AWS Lambda) : Inventory table is ingested using a custom python function powered by Lambda. Orchestration: Eventbridge
+    ![image](https://github.com/user-attachments/assets/a05fab36-d285-48b6-9b6c-6be9b7f99ee0)
+
+    Data Loaded into snowflake sucessfully as shown below
+   ![image](https://github.com/user-attachments/assets/c6baff4d-9817-4189-a672-a6f7f3629e8f)
+
+3. Data Transformation (DBT) :
+   a. All tables are loaded into the staging area
+5. Integration of some raw tables, such as several customer-related tables, into one table.
+6. Creation of a new fact table with additional metrics:
     sum_qty_wk: Sum of sales_quantity for the current week.
   
     sum_amt_wk: Sum of sales_amount for the current week.
