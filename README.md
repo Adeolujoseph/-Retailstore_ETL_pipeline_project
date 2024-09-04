@@ -1,13 +1,15 @@
 # Retail store ELT pipeline project
 ## Project Overview: 
-I designed and developed an ELT (Extract, Load, Transform) pipeline for a retail store. The pipeline performs the following functions:
+In this project, I designed and developed an ELT (Extract, Load, Transform) pipeline for a retail store, automating the data flow from raw data collection to insightful visualizations.
 1. Data Collection:
-OLTP Data: Data is extracted from the store’s OLTP database (RDS) and loaded into Snowflake using Airbyte. This process is scheduled to run daily.
-S3 Data: Data is also collected from an S3 bucket and loaded into Snowflake using an AWS Lambda function. This Lambda function is orchestrated to run daily at 6 AM using Amazon EventBridge.
+   
+   OLTP Data: Data is extracted from the store’s OLTP database (RDS) and loaded into Snowflake using Airbyte. This process is scheduled to run daily.
+
+   S3 Data: Data is also collected from an S3 bucket and loaded into Snowflake using an AWS Lambda function. This Lambda function is orchestrated to run daily at 6 AM using Amazon EventBridge.
 2. Data Transformation:
-The data in Snowflake is transformed using dbt (Data Build Tool) to meet business requirements. The transformation models are scheduled to run using a cron job.
+The data in Snowflake is transformed using dbt (Data Build Tool) to align with  business requirements. The transformation models are scheduled to run automatically through a cron job.
 3. Data Visualization:
-The transformed data is used to create visualizations in Metabase. Metabase is configured to refresh its data daily to ensure up-to-date reports and dashboards.
+The transformed data is visualized using Metabase. The dashboards and reports in Metabase are configured to refresh daily, ensuring that they reflect the most up-to-date data.
 
 ## Project Architecture:
 ![image](https://github.com/user-attachments/assets/271dd6cd-42d9-4607-ae0d-553862a0d50c)
@@ -60,34 +62,44 @@ A retail store needs a Data Engineer to develop an ELT (Extract, Load, Transform
        low_stock_flg_wk: Low stock weekly flag. If, during the week, there is a single day where [(avg_qty_dy > 0 && avg_qty_dy > inventory_on_hand_qty_wk)], then set the flag to True.
 
       g. Testing: various test like not null, unique, relationship, accepted values were carried out on relevant table columns in the marts model
+          
+   ![image](https://github.com/user-attachments/assets/c6dcda7b-1344-4340-a157-0849dcce1f54)
 
-            ![image](https://github.com/user-attachments/assets/8f645bac-0486-4600-9320-c8163c5d6100)
-
-      h. Documentation: With detailed column and table  descriptions helped to generate documentation
+      h. Documentation:detailed column and table  descriptions helped to generate exhaustive  documentation
    
-            ![image](https://github.com/user-attachments/assets/e53db673-e76b-431a-b9c0-09f8724b669f)
+    ![image](https://github.com/user-attachments/assets/e53db673-e76b-431a-b9c0-09f8724b669f)
 
-            ![image](https://github.com/user-attachments/assets/3faf2175-9fc7-4cd1-b298-6700c2d74bae)
+   ![image](https://github.com/user-attachments/assets/3faf2175-9fc7-4cd1-b298-6700c2d74bae)
 
-             ![image](https://github.com/user-attachments/assets/f7a6d011-1acb-40cc-bad8-2955cdda78fc)
+    ![image](https://github.com/user-attachments/assets/f7a6d011-1acb-40cc-bad8-2955cdda78fc)
    
       i. Data Analyzation (Metabase) : Mart models are fed into Metabase for analytics purposes
 
-            ![image](https://github.com/user-attachments/assets/f2ceea53-4a6b-41ad-9cae-e23551f2be62)
+    ![image](https://github.com/user-attachments/assets/f2ceea53-4a6b-41ad-9cae-e23551f2be62)
 
            Table relationships and column semantic types are set to aid analysis as below
 
-            ![image](https://github.com/user-attachments/assets/282c5136-0f6d-4c0e-b2ad-1212e0c4f009)
+    ![image](https://github.com/user-attachments/assets/282c5136-0f6d-4c0e-b2ad-1212e0c4f009)
 
-      j. Dashboards : These are created with SQL queries and Metabase GUI
+      j. Dashboards : These are created with SQL queries and Metabase GUI. Dashboards are categorized into different tabs to answer business questions with relavant filters to drill things down
 
-         ![image](https://github.com/user-attachments/assets/f2d4c2fd-2246-4835-bf56-315fadae02a6)
+    ![image](https://github.com/user-attachments/assets/f2d4c2fd-2246-4835-bf56-315fadae02a6)
 
-         ![image](https://github.com/user-attachments/assets/809e64c9-f4a0-4078-b68b-dfbc7732b9b8)
+    ![image](https://github.com/user-attachments/assets/809e64c9-f4a0-4078-b68b-dfbc7732b9b8)
 
-         ![image](https://github.com/user-attachments/assets/7953bc37-2b18-4c5f-85e9-4c81012b7240)
+    ![image](https://github.com/user-attachments/assets/7953bc37-2b18-4c5f-85e9-4c81012b7240)
 
-         ![image](https://github.com/user-attachments/assets/19668594-a82a-4632-a882-70819ecd1441)
+    ![image](https://github.com/user-attachments/assets/19668594-a82a-4632-a882-70819ecd1441)
+
+
+## Possible future work:
+
+a. Performance was based on Revenue, profit could be considered to see the effect of cost on the business
+b. Filter by multiple criteria within each tab in Metabase
+c. Use Airbyte to ingest data from s3 bucket
+d. Perform more data quality tests
+
+
 
 
 
