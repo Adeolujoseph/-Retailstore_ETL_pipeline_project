@@ -43,20 +43,57 @@ A retail store needs a Data Engineer to develop an ELT (Extract, Load, Transform
    c. Creating a snapshot of the Customer table (for SCD type 2) in the intermediate layer
    d. Creating a daily sales facts table in the intermediate layere
    e. Creating the customer dimension and weekly_sales_inventory models in the marts layer using the intermediate models
+   f. The new fact table 'weekly_sales_inventory' provides the additional metrics
 
+       sum_qty_wk: Sum of sales_quantity for the current week.
+
+       sum_amt_wk: Sum of sales_amount for the current week.
+       
+       sum_profit_wk: Sum of net_profit for the current week.
+       
+       avg_qty_dy: Average daily sales_quantity for the current week (calculated as sum_qty_wk/7).
+       
+       inv_on_hand_qty_wk: Item inventory on hand at the end of each week across all warehouses (equivalent to the inventory on hand at the end of the weekend).
+       
+       wks_sply: Weeks of supply, an estimated metric indicating how many weeks the inventory can supply the sales (calculated as inv_on_hand_qty_wk/sum_qty_wk).
+       
+       low_stock_flg_wk: Low stock weekly flag. If, during the week, there is a single day where [(avg_qty_dy > 0 && avg_qty_dy > inventory_on_hand_qty_wk)], then set the flag to True.
+
+      g. Testing: various test like not null, unique, relationship, accepted values were carried out on relevant table columns in the marts model
+
+            ![image](https://github.com/user-attachments/assets/8f645bac-0486-4600-9320-c8163c5d6100)
+
+      h. Documentation: With detailed column and table  descriptions helped to generate documentation
    
-5. Integration of some raw tables, such as several customer-related tables, into one table.
-6. Creation of a new fact table with additional metrics:
-    sum_qty_wk: Sum of sales_quantity for the current week.
-  
-    sum_amt_wk: Sum of sales_amount for the current week.
-    
-    sum_profit_wk: Sum of net_profit for the current week.
-    
-    avg_qty_dy: Average daily sales_quantity for the current week (calculated as sum_qty_wk/7).
-    
-    inv_on_hand_qty_wk: Item inventory on hand at the end of each week across all warehouses (equivalent to the inventory on hand at the end of the weekend).
-    
-    wks_sply: Weeks of supply, an estimated metric indicating how many weeks the inventory can supply the sales (calculated as inv_on_hand_qty_wk/sum_qty_wk).
-    
-    low_stock_flg_wk: Low stock weekly flag. If, during the week, there is a single day where [(avg_qty_dy > 0 && avg_qty_dy > inventory_on_hand_qty_wk)], then set the flag to True.
+            ![image](https://github.com/user-attachments/assets/e53db673-e76b-431a-b9c0-09f8724b669f)
+
+            ![image](https://github.com/user-attachments/assets/3faf2175-9fc7-4cd1-b298-6700c2d74bae)
+
+             ![image](https://github.com/user-attachments/assets/f7a6d011-1acb-40cc-bad8-2955cdda78fc)
+   
+      i. Data Analyzation (Metabase) : Mart models are fed into Metabase for analytics purposes
+
+            ![image](https://github.com/user-attachments/assets/f2ceea53-4a6b-41ad-9cae-e23551f2be62)
+
+           Table relationships and column semantic types are set to aid analysis as below
+
+            ![image](https://github.com/user-attachments/assets/282c5136-0f6d-4c0e-b2ad-1212e0c4f009)
+
+      j. Dashboards : These are created with SQL queries and Metabase GUI
+
+         ![image](https://github.com/user-attachments/assets/f2d4c2fd-2246-4835-bf56-315fadae02a6)
+
+         ![image](https://github.com/user-attachments/assets/809e64c9-f4a0-4078-b68b-dfbc7732b9b8)
+
+         ![image](https://github.com/user-attachments/assets/7953bc37-2b18-4c5f-85e9-4c81012b7240)
+
+         ![image](https://github.com/user-attachments/assets/19668594-a82a-4632-a882-70819ecd1441)
+
+
+
+
+         
+            
+
+
+      
