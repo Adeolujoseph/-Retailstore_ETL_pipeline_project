@@ -6,8 +6,9 @@ def lambda_handler(event, context):
   import os
   import toml
 
+  config = toml.load('config.toml')
+
   def snowflake_config():
-    config = toml.load('config.toml')
     credentials= {
         'account': config['snowflake']['account'],
         'warehouse': config['snowflake']['warehouse'],
@@ -22,11 +23,11 @@ def lambda_handler(event, context):
     return credentials
 
   def s3_config():
-    config = toml.load('config.toml')
     s3_conf = {
         'url': config['s3']['url'],
         'destination_folder': config['s3']['destination_folder'],
         'file_name': config['s3']['file_name'],
+        'bucket': config['s3']['bucket']
         'local_file_path': config['s3']['local_file_path'],
         'aws_access_key_id': os.getenv('AWS_ACCESS_KEY_IDD'),
         'aws_secret_access_key': os.getenv('AWS_SECRET_ACCESS_KEYY'),
@@ -51,8 +52,8 @@ def lambda_handler(event, context):
         aws_secret_access_key=s3_config['aws_secret_access_key']
     )
     client.download_file(
-        Bucket='de-materials-tpcds',
-        Key=s3_config['file_name'],
+        Bucket=s3_conf['bucket'],
+        Key=s3_conf['file_name'],
         Filename=s3_conf['local_file_path'],
         ExtraArgs={'RequestPayer': 'requester'}
     )
