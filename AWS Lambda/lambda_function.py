@@ -27,7 +27,7 @@ def lambda_handler(event, context):
         'url': config['s3']['url'],
         'destination_folder': config['s3']['destination_folder'],
         'file_name': config['s3']['file_name'],
-        'bucket': config['s3']['bucket']
+        'bucket': config['s3']['bucket'],
         'local_file_path': config['s3']['local_file_path'],
         'aws_access_key_id': os.getenv('AWS_ACCESS_KEY_IDD'),
         'aws_secret_access_key': os.getenv('AWS_SECRET_ACCESS_KEYY'),
