@@ -44,10 +44,10 @@ def lambda_handler(event, context):
     )
     return conn
 
-  def download_from_s3(s3_config):
+  def download_from_s3(s3_conf):
     client = boto3.client(
-        's3',aws_access_key_id=s3_config['aws_access_key_id'],
-        aws_secret_access_key=s3_config['aws_secret_access_key']
+        's3',aws_access_key_id=s3_conf['aws_access_key_id'],
+        aws_secret_access_key=s3_conf['aws_secret_access_key']
     )
     client.download_file(
         Bucket=s3_conf['bucket'],
