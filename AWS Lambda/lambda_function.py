@@ -25,7 +25,6 @@ def lambda_handler(event, context):
   def s3_config():
     s3_conf = {
         'url': config['s3']['url'],
-        'destination_folder': config['s3']['destination_folder'],
         'file_name': config['s3']['file_name'],
         'bucket': config['s3']['bucket'],
         'local_file_path': config['s3']['local_file_path'],
